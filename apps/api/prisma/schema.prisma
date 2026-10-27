@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ReviewStatus {
+  DRAFT
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model TechnicalDocument {
+  id          String   @id @default(cuid())
+  filename    String
+  rawText     String
+  extracted   Json
+  createdAt   DateTime @default(now())
+  drawings    DrawingRevision[]
+}
+
+model DrawingRevision {
+  id          String       @id @default(cuid())
+  documentId  String
+  version     Int
+  svg         String
+  status      ReviewStatus @default(DRAFT)
+  createdAt   DateTime     @default(now())
+  document    TechnicalDocument @relation(fields: [documentId], references: [id])
+
+  @@unique([documentId, version])
+}
+
+model MarketRecord {
+  id          String   @id @default(cuid())
+  year        Int
+  segment     String
+  technology  String
+  revenue     Float
+  source      String
+  createdAt   DateTime @default(now())
+}
+
+model TelemetrySample {
+  id           String   @id @default(cuid())
+  deviceId     String
+  frequencyHz  Float
+  rpm          Float
+  voltageV     Float
+  currentA     Float
+  temperatureC Float
+  anomaly      Boolean  @default(false)
+  capturedAt   DateTime @default(now())
+
+  @@index([deviceId, capturedAt])
+}

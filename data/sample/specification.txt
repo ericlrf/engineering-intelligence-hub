@@ -1,0 +1,7 @@
+ESPECIFICAÇÃO TÉCNICA - DADOS SINTÉTICOS
+Modelo: CFW-DEMO-75
+Potência: 7,5 kW
+Tensão: 380 V
+Corrente: 12 A
+Frequência: 60 Hz
+Observação: arquivo criado somente para demonstração de portfólio.

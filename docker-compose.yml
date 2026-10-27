@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: wegdemo
+      POSTGRES_PASSWORD: wegdemo
+      POSTGRES_DB: engineering_hub
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  mqtt:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+    command: ["mosquitto", "-c", "/mosquitto-no-auth.conf"]
+
+  ai-service:
+    build: ./services/ai-service
+    ports:
+      - "8000:8000"
+
+  api:
+    build: ./apps/api
+    environment:
+      DATABASE_URL: postgresql://wegdemo:wegdemo@postgres:5432/engineering_hub?schema=public
+      AI_SERVICE_URL: http://ai-service:8000
+      MQTT_URL: mqtt://mqtt:1883
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - ai-service
+      - mqtt
+
+  web:
+    build: ./apps/web
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  node-red:
+    image: nodered/node-red:4.0
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./infra/node-red:/data
+    depends_on:
+      - mqtt
+
+volumes:
+  pgdata:

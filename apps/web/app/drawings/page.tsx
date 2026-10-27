@@ -1,0 +1,4 @@
+'use client';
+import {useEffect,useState} from 'react';
+const api=process.env.NEXT_PUBLIC_API_URL||'http://localhost:3001';
+export default function Drawings(){const [docs,setDocs]=useState<any[]>([]);const [items,setItems]=useState<any[]>([]);async function load(){setDocs(await (await fetch(`${api}/documents`)).json());setItems(await (await fetch(`${api}/drawings`)).json())}useEffect(()=>{load()},[]);async function create(id:string){await fetch(`${api}/drawings`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({documentId:id})});load()}return <main><div className="card"><h2>Geração de desenho para aprovação</h2>{docs.map(d=><p key={d.id}>{d.filename} <button onClick={()=>create(d.id)}>Gerar revisão</button></p>)}</div>{items.map(x=><div className="card" key={x.id}><span className="status">{x.status}</span><h3>Revisão {x.version}</h3><div dangerouslySetInnerHTML={{__html:x.svg}}/></div>)}</main>}
