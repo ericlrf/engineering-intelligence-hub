@@ -1,13 +1,13 @@
-# WEG Engineering Intelligence Hub
+#   Engineering Intelligence Hub
 
-Case de portfólio que integra, em um único produto, competências de quatro oportunidades WEG/Inova Talentos:
+Case de portfólio que integra, em um único produto, competências de quatro oportunidades  Industria/Inovacao:
 
 1. **OCR + LLMs** para leitura e extração de especificações técnicas;
 2. **Geração automatizada de desenhos** para aprovação de engenharia;
 3. **Ciência de Dados e IA** para inteligência mercadológica e tecnológica;
 4. **IoT + HMI** para telemetria e integração com software executado em Linux.
 
-> **Escopo de demonstração:** este repositório usa dados sintéticos e serviços simulados. Não representa arquitetura interna, dados ou processos proprietários da WEG.
+> **Escopo de demonstração:** este repositório usa dados sintéticos e serviços simulados. Não representa arquitetura interna, dados ou processos proprietários da  .
 
 ## Visão do caso de uso
 
